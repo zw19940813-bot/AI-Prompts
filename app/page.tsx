@@ -2,11 +2,13 @@ import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { articles } from "@/lib/articles";
+import { getAllArticles } from "@/lib/cms";
 
-const featuredArticles = articles.slice(0, 20);
+export const revalidate = 60;
 
-export default function Home() {
+export default async function Home() {
+  const featuredArticles = (await getAllArticles()).slice(0, 20);
+
   return (
     <>
       <Header />

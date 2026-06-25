@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { articles, getArticleBySlug } from "@/lib/articles";
+import { articles } from "@/lib/articles";
+import { getArticleBySlug } from "@/lib/cms";
 
 type Props = {
   params: Promise<{
@@ -16,6 +17,8 @@ export function generateStaticParams() {
     slug: article.slug,
   }));
 }
+
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

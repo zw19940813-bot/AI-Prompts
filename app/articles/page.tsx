@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { articles } from "@/lib/articles";
+import { getAllArticles } from "@/lib/cms";
 
 export const metadata: Metadata = {
   title: "Articles | AI Prompt Refinement",
@@ -10,7 +10,11 @@ export const metadata: Metadata = {
     "Browse premium articles on AI prompt refinement, AI video generation, cinematic prompting, and creative workflow systems.",
 };
 
-export default function ArticlesPage() {
+export const revalidate = 60;
+
+export default async function ArticlesPage() {
+  const articles = await getAllArticles();
+
   return (
     <>
       <Header />
