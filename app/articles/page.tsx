@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ArticlesPage() {
-  const articles = await getAllArticles();
+  const articles = (await getAllArticles()).slice(0, 20);
 
   return (
     <>
@@ -25,10 +25,15 @@ export default async function ArticlesPage() {
           <p>Explore every guide, framework, and case study in the AI Prompt Refinement library.</p>
         </section>
         <section className="section">
-          <div className="article-grid">
+          <div className="article-grid article-archive-grid">
             {articles.map((article) => (
               <ArticleCard key={article.slug} article={article} />
             ))}
+          </div>
+          <div className="pagination-row">
+            <a className="secondary-action" href="/articles?next=2">
+              Next page
+            </a>
           </div>
         </section>
       </main>
