@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
 import { Footer } from "@/components/Footer";
@@ -8,6 +9,8 @@ export const revalidate = 60;
 
 export default async function Home() {
   const featuredArticles = (await getAllArticles()).slice(0, 20);
+  const leadArticle = featuredArticles[0];
+  const supportingArticles = featuredArticles.slice(1, 10);
 
   return (
     <>
@@ -15,6 +18,10 @@ export default async function Home() {
       <main>
         <section className="hero">
           <div className="hero-copy">
+            <div className="hero-brand-mark">
+              <Image src="/mark.svg" alt="" width={54} height={54} priority />
+              <span>AI Video Prompt Lab</span>
+            </div>
             <p className="eyebrow">AI Prompt & Video Generation</p>
             <h1>AI Prompt Refinement: Elevate Your AI Video Quality.</h1>
             <p className="hero-text">
@@ -29,16 +36,35 @@ export default async function Home() {
               </a>
             </div>
           </div>
-          <div className="hero-panel" aria-label="Site theme overview">
+          <div className="hero-panel" aria-label="AI video prompt refinement overview">
             <div className="panel-top">
-              <span>Refinement System</span>
-              <span>01</span>
+              <span>Prompt Refinement System</span>
+              <span>AI-01</span>
+            </div>
+            <div className="system-core" aria-hidden="true">
+              <Image src="/mark.svg" alt="" width={68} height={68} />
+              <div>
+                <strong>From rough idea to controlled AI video direction.</strong>
+                <small>Clean prompts. Stable shots. Repeatable workflows.</small>
+              </div>
             </div>
             <div className="prompt-window">
-              <span>Subject</span>
-              <span>Motion</span>
-              <span>Lens</span>
-              <span>Light</span>
+              <span>
+                <b>Subject</b>
+                <em>One clear visual focus</em>
+              </span>
+              <span>
+                <b>Motion</b>
+                <em>Controlled movement</em>
+              </span>
+              <span>
+                <b>Lens</b>
+                <em>Camera perspective</em>
+              </span>
+              <span>
+                <b>Light</b>
+                <em>Mood and realism</em>
+              </span>
             </div>
             <div className="timeline">
               <i />
@@ -52,18 +78,39 @@ export default async function Home() {
         <section className="section" id="latest">
           <div className="section-heading split">
             <div>
-              <p className="eyebrow">Latest Articles</p>
-              <h2>Latest Articles</h2>
+              <p className="eyebrow">The Journal</p>
+              <h2>dreamprompts</h2>
             </div>
             <Link className="text-link" href="/articles">
-              View all
+              View more
             </Link>
           </div>
-          <div className="article-grid">
-            {featuredArticles.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
-            ))}
-          </div>
+          {leadArticle ? (
+            <div className="editorial-layout home-editorial">
+              <Link className="lead-story" href={`/articles/${leadArticle.slug}`}>
+                <div className="lead-visual" aria-hidden="true">
+                  <Image className="visual-mark" src="/mark.svg" alt="" width={52} height={52} />
+                  <span className="visual-chip">Featured System</span>
+                  <span className="visual-line visual-line-one" />
+                  <span className="visual-line visual-line-two" />
+                  <span className="visual-line visual-line-three" />
+                  <span className="visual-orb visual-orb-one" />
+                  <span className="visual-orb visual-orb-two" />
+                </div>
+                <div className="lead-copy">
+                  <p className="article-kicker">{leadArticle.category}</p>
+                  <h3>{leadArticle.title}</h3>
+                  <p>{leadArticle.excerpt}</p>
+                  <span>Read story</span>
+                </div>
+              </Link>
+              <div className="article-grid cover-grid">
+                {supportingArticles.map((article, index) => (
+                  <ArticleCard key={article.slug} article={article} coverIndex={index} showCover />
+                ))}
+              </div>
+            </div>
+          ) : null}
           <div className="more-row">
             <Link className="primary-action" href="/articles">
               View More Articles
